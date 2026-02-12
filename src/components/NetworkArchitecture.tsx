@@ -1,86 +1,40 @@
 import { motion } from "framer-motion";
 
-// Flowchart columns (left to right)
-const columns = [
-  { // Col 0: Data Sources
-    nodes: [
-      { id: "bs", label: "Business Systems", y: 10 },
-      { id: "crm", label: "CRM", y: 28 },
-      { id: "fin", label: "Financial Systems", y: 46 },
-      { id: "risk", label: "Risk Systems", y: 64 },
-      { id: "ops", label: "Operational Platforms", y: 82 },
-    ],
-    x: 3,
+// Simplified pipeline: 5 main stages rendered as labeled boxes connected by arrows
+const stages = [
+  {
+    label: "Data Sources",
+    sub: ["Business Systems", "CRM", "Financial", "Risk", "Ops"],
+    color: "muted-foreground",
   },
-  { // Col 1: Integration Layer
-    nodes: [{ id: "integ", label: "Integration Layer / APIs / Event Streams", y: 46 }],
-    x: 18,
+  {
+    label: "Integration & Storage",
+    sub: ["APIs / Event Streams", "Data Lake", "KPI Knowledge Store"],
+    color: "muted-foreground",
   },
-  { // Col 2: Data stores
-    nodes: [
-      { id: "mock", label: "Mock / Synthetic Data Generator", y: 15 },
-      { id: "lake", label: "Enterprise Data Lake", y: 46 },
-      { id: "meta", label: "Metadata & KPI Knowledge Store", y: 77 },
-    ],
-    x: 33,
+  {
+    label: "Agent Orchestration",
+    sub: ["LLM + Reasoning", "Insight Generation"],
+    color: "primary",
+    highlight: true,
   },
-  { // Col 3: Analytical
-    nodes: [{ id: "analytics", label: "Analytical Data Store", y: 46 }],
-    x: 46,
+  {
+    label: "Insight Repository",
+    sub: ["Memory", "Context Engine"],
+    color: "primary",
+    highlight: true,
   },
-  { // Col 4: Agent Orchestration
-    nodes: [{ id: "orch", label: "Agent Orchestration Layer", y: 46 }],
-    x: 56,
+  {
+    label: "CXO Interfaces",
+    sub: ["Executive Dashboard", "Conversational Agent", "Alerts & Notifications"],
+    color: "muted-foreground",
   },
-  { // Col 5: LLM
-    nodes: [{ id: "llm", label: "LLM + Reasoning Engine", y: 46 }],
-    x: 66,
-  },
-  { // Col 6: Insight Gen
-    nodes: [{ id: "insight", label: "Insight Generation Engine", y: 46 }],
-    x: 76,
-  },
-  { // Col 7: Repository
-    nodes: [{ id: "repo", label: "Insight Repository / Memory", y: 46 }],
-    x: 86,
-  },
-  { // Col 8: CXO Interfaces
-    nodes: [
-      { id: "dash", label: "Executive Dashboard", y: 10 },
-      { id: "convo", label: "Conversational Agent", y: 30 },
-      { id: "alert", label: "Alerting / Notifications", y: 50 },
-      { id: "cxo", label: "CXO Interfaces", y: 70 },
-      { id: "feedback", label: "User Feedback", y: 90 },
-    ],
-    x: 97,
-  },
-];
-
-// Build flat node map
-const nodeMap: Record<string, { x: number; y: number; label: string }> = {};
-columns.forEach((col) => {
-  col.nodes.forEach((n) => {
-    nodeMap[n.id] = { x: col.x, y: n.y, label: n.label };
-  });
-});
-
-const connections: [string, string][] = [
-  // Sources → Integration
-  ["bs", "integ"], ["crm", "integ"], ["fin", "integ"], ["risk", "integ"], ["ops", "integ"],
-  // Integration → Data stores
-  ["integ", "mock"], ["integ", "lake"], ["integ", "meta"],
-  // Data stores → Analytical
-  ["mock", "analytics"], ["lake", "analytics"], ["meta", "analytics"],
-  // Pipeline
-  ["analytics", "orch"], ["orch", "llm"], ["llm", "insight"], ["insight", "repo"],
-  // Repo → Outputs
-  ["repo", "dash"], ["repo", "convo"], ["repo", "alert"], ["repo", "cxo"], ["repo", "feedback"],
 ];
 
 const NetworkArchitecture = () => {
   return (
     <section className="relative z-10 py-24 px-4 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <motion.h2
           className="text-3xl md:text-5xl font-bold text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -90,65 +44,81 @@ const NetworkArchitecture = () => {
           Intelligence <span className="text-primary text-glow">Architecture</span>
         </motion.h2>
 
-        {/* Scrollable container for mobile */}
+        {/* Horizontal pipeline */}
         <div className="overflow-x-auto pb-4">
-          <div className="relative min-w-[900px] w-full aspect-[4/1.2]">
-            {/* Connection Lines */}
-            <svg className="absolute inset-0 w-full h-full">
-              {connections.map(([from, to], i) => {
-                const f = nodeMap[from];
-                const t = nodeMap[to];
-                return (
-                  <motion.line
-                    key={i}
-                    x1={`${f.x}%`}
-                    y1={`${f.y}%`}
-                    x2={`${t.x}%`}
-                    y2={`${t.y}%`}
-                    stroke="hsl(155, 100%, 50%)"
-                    strokeWidth="0.7"
-                    strokeOpacity="0.25"
-                    strokeDasharray="6 4"
-                    animate={{ strokeDashoffset: [20, 0] }}
-                    transition={{ duration: 2 + i * 0.15, repeat: Infinity, ease: "linear" }}
-                  />
-                );
-              })}
-            </svg>
-
-            {/* Nodes */}
-            {Object.entries(nodeMap).map(([id, node], i) => {
-              const isOutput = ["dash", "convo", "alert", "cxo", "feedback"].includes(id);
-              const isPipeline = ["orch", "llm", "insight", "repo"].includes(id);
-              return (
+          <div className="flex items-stretch gap-0 min-w-[800px]">
+            {stages.map((stage, i) => (
+              <div key={stage.label} className="flex items-center">
+                {/* Stage box */}
                 <motion.div
-                  key={id}
-                  className="absolute flex flex-col items-center gap-1.5"
-                  style={{ left: `${node.x}%`, top: `${node.y}%`, transform: "translate(-50%, -50%)" }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
+                  className={`glass-panel rounded-xl p-5 w-[170px] flex-shrink-0 ${
+                    stage.highlight ? "glow-emerald border-primary/30" : ""
+                  }`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.04 }}
+                  transition={{ delay: i * 0.1 }}
                 >
-                  <motion.div
-                    className={`rounded-md ${
-                      isPipeline
-                        ? "w-4 h-4 bg-primary/60 border border-primary/50"
-                        : isOutput
-                        ? "w-3.5 h-3.5 bg-primary/30 border border-primary/20 rounded-sm"
-                        : "w-3 h-3 bg-primary/40 border border-primary/30"
-                    }`}
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 2 + Math.random(), repeat: Infinity }}
-                  />
-                  <span className={`text-[8px] md:text-[10px] font-mono whitespace-nowrap max-w-[90px] md:max-w-[120px] text-center leading-tight ${
-                    isPipeline ? "text-primary font-semibold" : "text-muted-foreground"
-                  }`}>
-                    {node.label}
-                  </span>
+                  <div className="flex items-center gap-2 mb-3">
+                    <motion.div
+                      className={`w-2.5 h-2.5 rounded-full ${
+                        stage.highlight ? "bg-primary" : "bg-muted-foreground/40"
+                      }`}
+                      animate={
+                        stage.highlight
+                          ? { scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }
+                          : { opacity: [0.4, 0.7, 0.4] }
+                      }
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <span
+                      className={`text-xs font-mono font-semibold tracking-wide ${
+                        stage.highlight ? "text-primary" : "text-foreground/80"
+                      }`}
+                    >
+                      {stage.label}
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    {stage.sub.map((s) => (
+                      <div
+                        key={s}
+                        className="text-[10px] text-muted-foreground font-mono pl-4 border-l border-border/50"
+                      >
+                        {s}
+                      </div>
+                    ))}
+                  </div>
                 </motion.div>
-              );
-            })}
+
+                {/* Arrow connector */}
+                {i < stages.length - 1 && (
+                  <div className="flex items-center w-10 flex-shrink-0">
+                    <svg width="40" height="20" viewBox="0 0 40 20" className="overflow-visible">
+                      <motion.line
+                        x1="0"
+                        y1="10"
+                        x2="30"
+                        y2="10"
+                        stroke="hsl(155, 100%, 50%)"
+                        strokeWidth="1"
+                        strokeOpacity="0.35"
+                        strokeDasharray="4 3"
+                        animate={{ strokeDashoffset: [14, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                      />
+                      <motion.polygon
+                        points="28,5 38,10 28,15"
+                        fill="hsl(155, 100%, 50%)"
+                        fillOpacity="0.35"
+                        animate={{ fillOpacity: [0.2, 0.5, 0.2] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
