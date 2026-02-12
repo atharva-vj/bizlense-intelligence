@@ -93,7 +93,10 @@ const SMBAgentSection = () => {
           })}
         </div>
 
-        <p className="text-sm text-muted-foreground mb-4">Click the Super Agent to open the executive panel</p>
+        <p className="text-sm text-muted-foreground mb-2">Click the Super Agent to open the executive panel</p>
+        <p className="text-xs text-primary/70 font-mono mb-4">
+          💬 Chat with the Super Agent in plain language — no dashboards to navigate.
+        </p>
 
         {/* Executive Panel */}
         <AnimatePresence>

@@ -55,6 +55,19 @@ const HeroSection = () => {
       {/* Grid overlay */}
       <div className="absolute inset-0 grid-overlay opacity-40" />
 
+      {/* BizLense Logo */}
+      <motion.div
+        className="relative z-10 mb-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <span className="text-2xl md:text-3xl font-bold tracking-tight">
+          <span className="text-primary">Biz</span>
+          <span className="text-foreground">Lense</span>
+        </span>
+      </motion.div>
+
       {/* Hero text */}
       <motion.div
         className="relative z-10 text-center max-w-4xl mx-auto mb-12"
