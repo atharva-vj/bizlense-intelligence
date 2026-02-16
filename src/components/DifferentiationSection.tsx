@@ -13,6 +13,12 @@ const liveInsights = [
   { agent: "SMB Agent", text: "Cross-domain synthesis: Revenue growth healthy but marketing ROI declining. Budget reallocation recommended.", time: "Just now" },
 ];
 
+const anomalies = [
+  { severity: "high", label: "Churn spike", detail: "Enterprise churn up 1.8% in 48hrs — 3 accounts flagged", agent: "Retention Agent" },
+  { severity: "medium", label: "CAC drift", detail: "Customer acquisition cost rose 22% week-over-week", agent: "Marketing Agent" },
+  { severity: "low", label: "SLA risk", detail: "Vendor response times approaching breach threshold", agent: "Ops Agent" },
+];
+
 const DifferentiationSection = () => {
   const [activeInsight, setActiveInsight] = useState(0);
 
@@ -56,34 +62,34 @@ const DifferentiationSection = () => {
             <div className="p-5 space-y-4">
               {/* Stale KPIs */}
               {staleMetrics.map((m, i) => (
-                <div key={i} className="flex items-center justify-between opacity-40">
+                <div key={i} className="flex items-center justify-between opacity-70">
                   <div>
-                    <div className="text-xs text-muted-foreground/60 font-mono">{m.label}</div>
-                    <div className="text-lg font-bold text-muted-foreground/40">{m.value}</div>
+                    <div className="text-xs text-muted-foreground font-mono">{m.label}</div>
+                    <div className="text-lg font-bold text-foreground/70">{m.value}</div>
                   </div>
-                  <span className="text-[9px] text-destructive/40 font-mono">{m.note}</span>
+                  <span className="text-[9px] text-destructive/60 font-mono">{m.note}</span>
                 </div>
               ))}
 
               {/* Fake static chart */}
               <div className="mt-4">
-                <div className="flex gap-1 h-16 items-end opacity-20">
-                  {[40, 55, 35, 60, 45, 50, 30, 55, 40, 45, 50, 35].map((h, i) => (
-                    <div key={i} className="flex-1 bg-muted-foreground/30 rounded-sm" style={{ height: `${h}%` }} />
+                <div className="flex gap-1 h-16 items-end opacity-40">
+                {[40, 55, 35, 60, 45, 50, 30, 55, 40, 45, 50, 35].map((h, i) => (
+                    <div key={i} className="flex-1 bg-muted-foreground/50 rounded-sm" style={{ height: `${h}%` }} />
                   ))}
                 </div>
               </div>
 
               {/* No insights */}
               <div className="text-center py-4 border-t border-border/20">
-                <div className="text-xs text-muted-foreground/30 font-mono">No automated insights available</div>
-                <div className="text-[10px] text-muted-foreground/20 font-mono mt-1">Manual analysis required</div>
+                <div className="text-xs text-muted-foreground/50 font-mono">No automated insights available</div>
+                <div className="text-[10px] text-muted-foreground/40 font-mono mt-1">Manual analysis required</div>
               </div>
             </div>
 
             {/* "Dead" overlay stripe */}
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-              <div className="rotate-[-12deg] text-muted-foreground/[0.06] text-5xl font-black tracking-widest select-none">
+              <div className="rotate-[-12deg] text-muted-foreground/[0.08] text-5xl font-black tracking-widest select-none">
                 OUTDATED
               </div>
             </div>
@@ -147,6 +153,39 @@ const DifferentiationSection = () => {
                     <p className="text-xs text-foreground/70 font-mono leading-relaxed">{insight.text}</p>
                   </motion.div>
                 ))}
+              </div>
+
+              {/* Anomaly Detector */}
+              <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <motion.div
+                    className="w-2 h-2 rounded-full bg-destructive"
+                    animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                  <span className="text-[10px] font-mono text-destructive uppercase tracking-widest font-semibold">Anomaly Detector — Live</span>
+                </div>
+                <div className="space-y-1.5">
+                  {anomalies.map((a, i) => (
+                    <motion.div
+                      key={i}
+                      className="flex items-start gap-2 text-[11px] font-mono"
+                      initial={{ opacity: 0, x: -5 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.3 + i * 0.2 }}
+                      viewport={{ once: true }}
+                    >
+                      <span className={`mt-0.5 w-1.5 h-1.5 rounded-full shrink-0 ${
+                        a.severity === "high" ? "bg-destructive" : a.severity === "medium" ? "bg-yellow-500" : "bg-primary"
+                      }`} />
+                      <div>
+                        <span className="text-foreground/80 font-semibold">{a.label}:</span>{" "}
+                        <span className="text-foreground/60">{a.detail}</span>
+                        <span className="text-muted-foreground/50 ml-1">— {a.agent}</span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
 
               {/* Active agents strip */}
