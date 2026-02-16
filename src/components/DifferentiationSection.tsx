@@ -1,58 +1,118 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+
+const staleMetrics = [
+  { label: "Revenue", value: "$312K", note: "Last updated: 3 days ago" },
+  { label: "Churn", value: "2.8%", note: "Last updated: 1 week ago" },
+  { label: "Pipeline", value: "$890K", note: "Last updated: 5 days ago" },
+];
+
+const liveInsights = [
+  { agent: "Sales Agent", text: "Pipeline surged to $1.2M — 23% above last week. 3 Enterprise deals likely to close this sprint.", time: "2s ago" },
+  { agent: "Finance Agent", text: "MRR hit $340K. Burn rate stabilized — runway extended by 2 months.", time: "5s ago" },
+  { agent: "SMB Agent", text: "Cross-domain synthesis: Revenue growth healthy but marketing ROI declining. Budget reallocation recommended.", time: "Just now" },
+];
 
 const DifferentiationSection = () => {
+  const [activeInsight, setActiveInsight] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveInsight((prev) => (prev + 1) % liveInsights.length);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative z-10 py-24 px-4">
       <div className="max-w-6xl mx-auto">
         <motion.h2
-          className="text-3xl md:text-5xl font-bold text-center mb-16"
+          className="text-3xl md:text-5xl font-bold text-center mb-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           Not dashboards. <span className="text-primary text-glow">Intelligence agents.</span>
         </motion.h2>
+        <p className="text-center text-muted-foreground text-sm mb-16">See the difference between looking at data and understanding it.</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left — Dead Dashboard */}
           <motion.div
-            className="rounded-xl p-6 border border-border/50 bg-muted/20 relative overflow-hidden"
+            className="rounded-xl border border-border/30 bg-muted/10 relative overflow-hidden"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <div className="absolute top-4 right-4 text-[10px] font-mono text-muted-foreground/50 uppercase">Static</div>
-            <div className="space-y-4 opacity-30">
-              <div className="h-3 bg-muted-foreground/20 rounded w-3/4" />
-              <div className="h-3 bg-muted-foreground/20 rounded w-1/2" />
-              <div className="grid grid-cols-3 gap-2 mt-6">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-20 bg-muted-foreground/10 rounded" />
-                ))}
+            {/* Header */}
+            <div className="px-5 py-3 border-b border-border/30 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+                <span className="text-[10px] font-mono text-muted-foreground/50 uppercase tracking-widest">Traditional Dashboard</span>
               </div>
-              <div className="h-32 bg-muted-foreground/10 rounded mt-4" />
-              <div className="h-3 bg-muted-foreground/20 rounded w-2/3 mt-4" />
+              <span className="text-[10px] font-mono text-destructive/60">⚠ STALE</span>
             </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-2xl font-bold text-muted-foreground/20">Yesterday's data</span>
+
+            <div className="p-5 space-y-4">
+              {/* Stale KPIs */}
+              {staleMetrics.map((m, i) => (
+                <div key={i} className="flex items-center justify-between opacity-40">
+                  <div>
+                    <div className="text-xs text-muted-foreground/60 font-mono">{m.label}</div>
+                    <div className="text-lg font-bold text-muted-foreground/40">{m.value}</div>
+                  </div>
+                  <span className="text-[9px] text-destructive/40 font-mono">{m.note}</span>
+                </div>
+              ))}
+
+              {/* Fake static chart */}
+              <div className="mt-4">
+                <div className="flex gap-1 h-16 items-end opacity-20">
+                  {[40, 55, 35, 60, 45, 50, 30, 55, 40, 45, 50, 35].map((h, i) => (
+                    <div key={i} className="flex-1 bg-muted-foreground/30 rounded-sm" style={{ height: `${h}%` }} />
+                  ))}
+                </div>
+              </div>
+
+              {/* No insights */}
+              <div className="text-center py-4 border-t border-border/20">
+                <div className="text-xs text-muted-foreground/30 font-mono">No automated insights available</div>
+                <div className="text-[10px] text-muted-foreground/20 font-mono mt-1">Manual analysis required</div>
+              </div>
+            </div>
+
+            {/* "Dead" overlay stripe */}
+            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+              <div className="rotate-[-12deg] text-muted-foreground/[0.06] text-5xl font-black tracking-widest select-none">
+                OUTDATED
+              </div>
             </div>
           </motion.div>
 
           {/* Right — Living Intelligence */}
           <motion.div
-            className="rounded-xl p-6 glass-panel glow-emerald relative overflow-hidden"
+            className="rounded-xl glass-panel glow-emerald-strong relative overflow-hidden"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <div className="absolute top-4 right-4 flex items-center gap-1.5">
-              <motion.div className="w-1.5 h-1.5 rounded-full bg-primary" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1, repeat: Infinity }} />
-              <span className="text-[10px] font-mono text-primary uppercase">Live</span>
+            {/* Header */}
+            <div className="px-5 py-3 border-b border-primary/10 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <motion.div
+                  className="w-2 h-2 rounded-full bg-primary"
+                  animate={{ opacity: [1, 0.3, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                />
+                <span className="text-[10px] font-mono text-primary uppercase tracking-widest">BizLense Agents — Live</span>
+              </div>
+              <span className="text-[10px] font-mono text-primary/70">Real-time</span>
             </div>
-            <div className="space-y-3">
-              {/* Animated bars */}
-              <div className="flex gap-1 h-8 items-end">
-                {Array.from({ length: 20 }).map((_, i) => (
+
+            <div className="p-5 space-y-4">
+              {/* Live animated chart */}
+              <div className="flex gap-1 h-16 items-end">
+                {Array.from({ length: 16 }).map((_, i) => (
                   <motion.div
                     key={i}
                     className="flex-1 bg-primary/30 rounded-sm"
@@ -61,52 +121,49 @@ const DifferentiationSection = () => {
                   />
                 ))}
               </div>
-              {/* Agent activity */}
-              {["Sales Agent analyzing pipeline...", "Finance Agent updating forecast...", "SMB Agent synthesizing..."].map((msg, i) => (
-                <motion.div
-                  key={i}
-                  className="flex items-center gap-2 text-xs font-mono"
-                  initial={{ opacity: 0, x: -5 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + i * 0.2 }}
-                >
-                  <motion.div className="w-1.5 h-1.5 rounded-full bg-primary" animate={{ scale: [1, 1.5, 1] }} transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }} />
-                  <span className="text-primary/70">{msg}</span>
-                </motion.div>
-              ))}
-              {/* Network mini */}
-              <svg className="w-full h-24 mt-2">
-                {[
-                  { x1: 20, y1: 30, x2: 50, y2: 50 },
-                  { x1: 50, y1: 50, x2: 80, y2: 20 },
-                  { x1: 50, y1: 50, x2: 80, y2: 80 },
-                  { x1: 20, y1: 70, x2: 50, y2: 50 },
-                ].map((line, i) => (
-                  <motion.line
+
+              {/* Agent insights cycling */}
+              <div className="space-y-2">
+                {liveInsights.map((insight, i) => (
+                  <motion.div
                     key={i}
-                    x1={`${line.x1}%`} y1={`${line.y1}%`}
-                    x2={`${line.x2}%`} y2={`${line.y2}%`}
-                    stroke="hsl(155, 100%, 50%)"
-                    strokeWidth="0.5"
-                    strokeOpacity="0.4"
-                    strokeDasharray="4 3"
-                    animate={{ strokeDashoffset: [14, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  />
+                    className={`glass-panel rounded-lg p-3 transition-all duration-500 ${
+                      i === activeInsight ? "border-primary/30 glow-emerald" : "border-transparent opacity-50"
+                    }`}
+                    animate={i === activeInsight ? { scale: [0.98, 1], opacity: [0.7, 1] } : {}}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-1.5">
+                        <motion.div
+                          className="w-1.5 h-1.5 rounded-full bg-primary"
+                          animate={i === activeInsight ? { scale: [1, 1.6, 1] } : {}}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        />
+                        <span className="text-[10px] text-primary font-mono font-semibold">{insight.agent}</span>
+                      </div>
+                      <span className="text-[9px] text-primary/50 font-mono">{insight.time}</span>
+                    </div>
+                    <p className="text-xs text-foreground/70 font-mono leading-relaxed">{insight.text}</p>
+                  </motion.div>
                 ))}
-                {[
-                  { cx: 20, cy: 30 }, { cx: 20, cy: 70 }, { cx: 50, cy: 50 }, { cx: 80, cy: 20 }, { cx: 80, cy: 80 },
-                ].map((node, i) => (
-                  <motion.circle
-                    key={i}
-                    cx={`${node.cx}%`} cy={`${node.cy}%`} r="4"
-                    fill="hsl(155, 100%, 50%)" fillOpacity="0.6"
-                    animate={{ r: [3, 5, 3], fillOpacity: [0.4, 0.8, 0.4] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-                  />
+              </div>
+
+              {/* Active agents strip */}
+              <div className="flex items-center gap-3 pt-2 border-t border-primary/10">
+                <span className="text-[9px] text-muted-foreground font-mono">Active agents:</span>
+                {["Sales", "Finance", "Ops", "Marketing", "SMB"].map((a, i) => (
+                  <motion.div
+                    key={a}
+                    className="flex items-center gap-1"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                  >
+                    <div className="w-1 h-1 rounded-full bg-primary" />
+                    <span className="text-[9px] text-primary/70 font-mono">{a}</span>
+                  </motion.div>
                 ))}
-              </svg>
+              </div>
             </div>
           </motion.div>
         </div>

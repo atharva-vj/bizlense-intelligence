@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 
 const agents = [
-  { name: "Sales Agent", status: "active", insight: "Pipeline velocity trending 18% above Q3 average.", kpi: "87 leads/day" },
-  { name: "Finance Agent", status: "active", insight: "Cash burn rate stabilized. Runway extended by 2 months.", kpi: "$340K MRR" },
-  { name: "Ops Agent", status: "active", insight: "3 vendor SLAs at risk. Mitigation protocols activated.", kpi: "99.2% uptime" },
-  { name: "Marketing Agent", status: "active", insight: "Campaign #47 outperforming benchmark by 34%.", kpi: "4.2% CTR" },
-  { name: "HR Agent", status: "active", insight: "Engineering attrition risk elevated. Retention alert sent.", kpi: "12 open roles" },
-  { name: "SMB Agent", status: "primary", insight: "Super Agent synthesizing all domain signals into unified brief.", kpi: "7 agents" },
+  { name: "Sales Agent", status: "active", insight: "Pipeline velocity trending 18% above Q3 average.", kpi: "87 leads/day", icon: "📈" },
+  { name: "Finance Agent", status: "active", insight: "Cash burn rate stabilized. Runway extended by 2 months.", kpi: "$340K MRR", icon: "💰" },
+  { name: "Ops Agent", status: "active", insight: "3 vendor SLAs at risk. Mitigation protocols activated.", kpi: "99.2% uptime", icon: "⚙️" },
+  { name: "Marketing Agent", status: "active", insight: "Campaign #47 outperforming benchmark by 34%.", kpi: "4.2% CTR", icon: "📣" },
+  { name: "HR Agent", status: "active", insight: "Engineering attrition risk elevated. Retention alert sent.", kpi: "12 open roles", icon: "👥" },
+  { name: "SMB Agent", status: "primary", insight: "Super Agent synthesizing all domain signals into unified brief.", kpi: "7 agents", icon: "🧠" },
 ];
 
 const AgentFleetSection = () => {
@@ -49,9 +49,21 @@ const AgentFleetSection = () => {
               transition={{ delay: i * 0.1 }}
               onMouseEnter={() => setHoveredIdx(i)}
               onMouseLeave={() => setHoveredIdx(null)}
-              style={{ animation: `float ${5 + i * 0.5}s ease-in-out infinite` }}
+              whileHover={{ scale: 1.03, y: -4 }}
             >
-              <div className="flex items-center gap-3 mb-3">
+              {/* Scanning line effect */}
+              <motion.div
+                className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none"
+                style={{ zIndex: 1 }}
+              >
+                <motion.div
+                  className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent"
+                  animate={{ top: ["0%", "100%"] }}
+                  transition={{ duration: 4 + i * 0.5, repeat: Infinity, ease: "linear" }}
+                />
+              </motion.div>
+
+              <div className="flex items-center gap-3 mb-3 relative z-10">
                 <motion.div
                   className={`w-2.5 h-2.5 rounded-full ${agent.status === "primary" ? "bg-primary" : "bg-primary/70"}`}
                   animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
@@ -65,10 +77,10 @@ const AgentFleetSection = () => {
                 )}
               </div>
 
-              <div className="text-xs text-muted-foreground font-mono mb-3">{agent.kpi}</div>
+              <div className="text-xs text-muted-foreground font-mono mb-3 relative z-10">{agent.kpi}</div>
 
               {/* Mini chart bar */}
-              <div className="flex gap-0.5 h-8 items-end mb-3">
+              <div className="flex gap-0.5 h-8 items-end mb-3 relative z-10">
                 {Array.from({ length: 12 }).map((_, j) => (
                   <motion.div
                     key={j}
@@ -84,7 +96,7 @@ const AgentFleetSection = () => {
               <motion.div
                 initial={false}
                 animate={{ height: hoveredIdx === i ? "auto" : 0, opacity: hoveredIdx === i ? 1 : 0 }}
-                className="overflow-hidden"
+                className="overflow-hidden relative z-10"
               >
                 <p className="text-xs text-primary/80 font-mono pt-2 border-t border-border">
                   → {agent.insight}
