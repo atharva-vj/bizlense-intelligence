@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useEmailModal } from "./EmailModalContext";
 
 const FinalCTA = () => {
+  const { open } = useEmailModal();
+
   return (
     <section className="relative z-10 py-32 px-4 overflow-hidden">
       {/* Network mesh background */}
@@ -54,9 +57,10 @@ const FinalCTA = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
         >
-          Start with the SMB Agent. Scale to a full fleet.
+          Start with ORBIT. Scale to a full fleet.
         </motion.p>
         <motion.button
+          onClick={open}
           className="px-10 py-5 bg-primary text-primary-foreground font-semibold rounded-lg glow-emerald-strong text-lg hover:scale-105 transition-transform duration-200"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
@@ -65,8 +69,17 @@ const FinalCTA = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
-          Start with the SMB Agent
+          Explore Our Systems
         </motion.button>
+        <motion.p
+          className="text-xs text-muted-foreground font-mono mt-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+        >
+          BizLense builds agentic AI systems for domains where execution quality, regulatory integrity, and performance alignment matter.
+        </motion.p>
       </div>
     </section>
   );
