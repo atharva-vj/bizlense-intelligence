@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 
-// Simplified pipeline: 5 main stages rendered as labeled boxes connected by arrows
 const stages = [
   {
     label: "Data Sources",
@@ -36,20 +35,30 @@ const NetworkArchitecture = () => {
     <section className="relative z-10 py-24 px-4 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <motion.h2
-          className="text-3xl md:text-5xl font-bold text-center mb-16"
+          className="text-3xl md:text-5xl font-bold text-center mb-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          Intelligence <span className="text-primary text-glow">Architecture</span>
+          Coordinated. <span className="text-primary text-glow">Not siloed.</span>
         </motion.h2>
+        <motion.p
+          className="text-center text-muted-foreground text-sm max-w-2xl mx-auto mb-16"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+        >
+          Every BizLense product is built on a coordinated multi-agent architecture.
+          Specialized AI agents monitor live signals, reason over complex inputs, and
+          execute within defined guardrails. This is not workflow automation. It is operational intelligence.
+        </motion.p>
 
         {/* Horizontal pipeline */}
         <div className="overflow-x-auto pb-4">
           <div className="flex items-stretch gap-0 min-w-[800px]">
             {stages.map((stage, i) => (
               <div key={stage.label} className="flex items-center">
-                {/* Stage box */}
                 <motion.div
                   className={`glass-panel rounded-xl p-5 w-[170px] flex-shrink-0 ${
                     stage.highlight ? "glow-emerald border-primary/30" : ""
@@ -91,26 +100,18 @@ const NetworkArchitecture = () => {
                   </div>
                 </motion.div>
 
-                {/* Arrow connector */}
                 {i < stages.length - 1 && (
                   <div className="flex items-center w-10 flex-shrink-0">
                     <svg width="40" height="20" viewBox="0 0 40 20" className="overflow-visible">
                       <motion.line
-                        x1="0"
-                        y1="10"
-                        x2="30"
-                        y2="10"
-                        stroke="hsl(155, 100%, 50%)"
-                        strokeWidth="1"
-                        strokeOpacity="0.35"
-                        strokeDasharray="4 3"
+                        x1="0" y1="10" x2="30" y2="10"
+                        stroke="hsl(155, 100%, 50%)" strokeWidth="1" strokeOpacity="0.35" strokeDasharray="4 3"
                         animate={{ strokeDashoffset: [14, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
                       />
                       <motion.polygon
                         points="28,5 38,10 28,15"
-                        fill="hsl(155, 100%, 50%)"
-                        fillOpacity="0.35"
+                        fill="hsl(155, 100%, 50%)" fillOpacity="0.35"
                         animate={{ fillOpacity: [0.2, 0.5, 0.2] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       />

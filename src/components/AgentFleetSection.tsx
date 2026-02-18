@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useEmailModal } from "./EmailModalContext";
 
 const agents = [
   { name: "Sales Agent", status: "active", insight: "Pipeline velocity trending 18% above Q3 average.", kpi: "87 leads/day", icon: "📈" },
@@ -7,10 +8,11 @@ const agents = [
   { name: "Ops Agent", status: "active", insight: "3 vendor SLAs at risk. Mitigation protocols activated.", kpi: "99.2% uptime", icon: "⚙️" },
   { name: "Marketing Agent", status: "active", insight: "Campaign #47 outperforming benchmark by 34%.", kpi: "4.2% CTR", icon: "📣" },
   { name: "HR Agent", status: "active", insight: "Engineering attrition risk elevated. Retention alert sent.", kpi: "12 open roles", icon: "👥" },
-  { name: "SMB Agent", status: "primary", insight: "Super Agent synthesizing all domain signals into unified brief.", kpi: "7 agents", icon: "🧠" },
+  { name: "ORBIT Agent", status: "primary", insight: "Super Agent synthesizing all domain signals into unified brief.", kpi: "7 agents", icon: "🧠" },
 ];
 
 const AgentFleetSection = () => {
+  const { open } = useEmailModal();
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   return (
@@ -22,9 +24,9 @@ const AgentFleetSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          Meet the <span className="text-primary text-glow">Agent Fleet</span>
+          Our <span className="text-primary text-glow">Systems</span>
         </motion.h2>
-        <p className="text-center text-muted-foreground mb-16 text-sm">Coordinated intelligence across every domain.</p>
+        <p className="text-center text-muted-foreground mb-16 text-sm">Two agentic systems. One coordinated architecture.</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
           {/* SVG connection lines */}

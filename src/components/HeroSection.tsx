@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useEmailModal } from "./EmailModalContext";
 
 const agentMessages = [
   { agent: "Sales Agent", msg: "Anomaly detected in Q4 pipeline conversion", type: "alert" },
   { agent: "Finance Agent", msg: "Updating revenue forecast — confidence 94%", type: "update" },
-  { agent: "SMB Agent", msg: "Synthesizing cross-domain insights", type: "sync" },
+  { agent: "ORBIT Agent", msg: "Synthesizing cross-domain insights", type: "sync" },
   { agent: "Ops Agent", msg: "Supply chain latency reduced by 12%", type: "success" },
-  { agent: "Marketing Agent", msg: "Campaign ROI exceeding threshold", type: "success" },
-  { agent: "HR Agent", msg: "Attrition risk flagged — Engineering team", type: "alert" },
+  { agent: "MARS Agent", msg: "Settlement rate exceeding threshold", type: "success" },
+  { agent: "Recovery Agent", msg: "Compliance audit — all agents passing", type: "alert" },
   { agent: "Sales Agent", msg: "New enterprise lead scored 92/100", type: "update" },
   { agent: "Finance Agent", msg: "Cash flow projection aligned", type: "sync" },
 ];
@@ -37,6 +38,7 @@ const AgentNode = ({ x, y, label, delay }: { x: string; y: string; label: string
 );
 
 const HeroSection = () => {
+  const { open } = useEmailModal();
   const [visibleLogs, setVisibleLogs] = useState<number[]>([0]);
 
   useEffect(() => {
@@ -55,19 +57,6 @@ const HeroSection = () => {
       {/* Grid overlay */}
       <div className="absolute inset-0 grid-overlay opacity-40" />
 
-      {/* BizLense Logo */}
-      <motion.div
-        className="relative z-10 mb-8"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <span className="text-2xl md:text-3xl font-bold tracking-tight">
-          <span className="text-primary">Biz</span>
-          <span className="text-foreground">Lense</span>
-        </span>
-      </motion.div>
-
       {/* Hero text */}
       <motion.div
         className="relative z-10 text-center max-w-4xl mx-auto mb-12"
@@ -76,19 +65,31 @@ const HeroSection = () => {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6">
-          A coordinated fleet of AI agents{" "}
-          <span className="text-primary text-glow">running your business.</span>
+          Agentic systems for{" "}
+          <span className="text-primary text-glow">high-friction domains.</span>
         </h1>
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-          Monitoring. Explaining. Deciding. Continuously.
+          BizLense builds autonomous, multi-agent intelligence systems that operate inside real-world business constraints. We standardize execution, reduce risk, and eliminate operational drift across complex environments.
         </p>
-        <motion.button
-          className="px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-lg glow-emerald-strong hover:scale-105 transition-transform duration-200 text-lg"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          Deploy your first agent
-        </motion.button>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+          <motion.button
+            onClick={open}
+            className="px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-lg glow-emerald-strong hover:scale-105 transition-transform duration-200 text-lg"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Explore Our Systems
+          </motion.button>
+          <motion.button
+            onClick={open}
+            className="px-8 py-4 rounded-lg border border-primary/30 text-primary font-semibold hover:bg-primary/10 transition-colors text-lg"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Contact Us
+          </motion.button>
+        </div>
+        <p className="text-xs text-primary/70 font-mono">Built agent-first. Designed for scale.</p>
       </motion.div>
 
       {/* Live AI System Panel */}
@@ -114,30 +115,17 @@ const HeroSection = () => {
             <AgentNode x="20%" y="20%" label="Sales" delay={0.5} />
             <AgentNode x="70%" y="15%" label="Finance" delay={0.7} />
             <AgentNode x="15%" y="65%" label="Ops" delay={0.9} />
-            <AgentNode x="75%" y="60%" label="Marketing" delay={1.1} />
-            <AgentNode x="45%" y="40%" label="SMB Agent" delay={0.3} />
-            {/* Signal lines via SVG */}
+            <AgentNode x="75%" y="60%" label="MARS" delay={1.1} />
+            <AgentNode x="45%" y="40%" label="ORBIT" delay={0.3} />
             <svg className="absolute inset-0 w-full h-full pointer-events-none">
               <motion.line x1="50%" y1="45%" x2="25%" y2="25%" stroke="hsl(155, 100%, 50%)" strokeWidth="0.5" strokeOpacity="0.3"
-                strokeDasharray="4 4"
-                animate={{ strokeDashoffset: [8, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              />
+                strokeDasharray="4 4" animate={{ strokeDashoffset: [8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} />
               <motion.line x1="50%" y1="45%" x2="75%" y2="20%" stroke="hsl(155, 100%, 50%)" strokeWidth="0.5" strokeOpacity="0.3"
-                strokeDasharray="4 4"
-                animate={{ strokeDashoffset: [8, 0] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-              />
+                strokeDasharray="4 4" animate={{ strokeDashoffset: [8, 0] }} transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }} />
               <motion.line x1="50%" y1="45%" x2="20%" y2="70%" stroke="hsl(155, 100%, 50%)" strokeWidth="0.5" strokeOpacity="0.3"
-                strokeDasharray="4 4"
-                animate={{ strokeDashoffset: [8, 0] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: "linear" }}
-              />
+                strokeDasharray="4 4" animate={{ strokeDashoffset: [8, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: "linear" }} />
               <motion.line x1="50%" y1="45%" x2="80%" y2="65%" stroke="hsl(155, 100%, 50%)" strokeWidth="0.5" strokeOpacity="0.3"
-                strokeDasharray="4 4"
-                animate={{ strokeDashoffset: [8, 0] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: "linear" }}
-              />
+                strokeDasharray="4 4" animate={{ strokeDashoffset: [8, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: "linear" }} />
             </svg>
           </div>
 
