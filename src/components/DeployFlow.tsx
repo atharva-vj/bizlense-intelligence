@@ -8,10 +8,10 @@ const steps = [
 
 const DeployFlow = () => {
   return (
-    <section className="relative z-10 py-24 px-4">
+    <section className="relative z-10 py-16 md:py-24 px-4">
       <div className="max-w-4xl mx-auto">
         <motion.h2
-          className="text-3xl md:text-5xl font-bold text-center mb-16"
+          className="text-2xl md:text-5xl font-bold text-center mb-10 md:mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -21,9 +21,9 @@ const DeployFlow = () => {
 
         <div className="flex flex-col md:flex-row items-center justify-center gap-0">
           {steps.map((step, i) => (
-            <div key={step.label} className="flex items-center">
+            <div key={step.label} className="flex flex-col md:flex-row items-center">
               <motion.div
-                className="glass-panel rounded-xl p-8 text-center min-w-[200px]"
+                className="glass-panel rounded-xl p-6 md:p-8 text-center min-w-[200px]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -42,14 +42,26 @@ const DeployFlow = () => {
               </motion.div>
 
               {i < steps.length - 1 && (
-                <div className="hidden md:block w-16 h-px relative mx-2">
-                  <div className="absolute inset-0 bg-primary/20" />
-                  <motion.div
-                    className="absolute top-0 left-0 h-full w-4 bg-primary/60 rounded-full"
-                    animate={{ x: [0, 48, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
-                  />
-                </div>
+                <>
+                  {/* Horizontal connector - desktop */}
+                  <div className="hidden md:block w-16 h-px relative mx-2">
+                    <div className="absolute inset-0 bg-primary/20" />
+                    <motion.div
+                      className="absolute top-0 left-0 h-full w-4 bg-primary/60 rounded-full"
+                      animate={{ x: [0, 48, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
+                    />
+                  </div>
+                  {/* Vertical connector - mobile */}
+                  <div className="block md:hidden w-px h-10 relative my-2">
+                    <div className="absolute inset-0 bg-primary/20" />
+                    <motion.div
+                      className="absolute left-0 top-0 w-full h-3 bg-primary/60 rounded-full"
+                      animate={{ y: [0, 28, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
+                    />
+                  </div>
+                </>
               )}
             </div>
           ))}

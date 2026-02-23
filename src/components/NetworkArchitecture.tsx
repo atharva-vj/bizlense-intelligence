@@ -32,10 +32,10 @@ const stages = [
 
 const NetworkArchitecture = () => {
   return (
-    <section className="relative z-10 py-24 px-4 overflow-hidden">
+    <section className="relative z-10 py-16 md:py-24 px-4 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <motion.h2
-          className="text-3xl md:text-5xl font-bold text-center mb-4"
+          className="text-2xl md:text-5xl font-bold text-center mb-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -43,7 +43,7 @@ const NetworkArchitecture = () => {
           Coordinated. <span className="text-primary text-glow">Not siloed.</span>
         </motion.h2>
         <motion.p
-          className="text-center text-muted-foreground text-sm max-w-2xl mx-auto mb-16"
+          className="text-center text-muted-foreground text-sm max-w-2xl mx-auto mb-10 md:mb-16"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}

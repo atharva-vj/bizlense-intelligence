@@ -10,6 +10,7 @@ import ExecutiveDashboard from "@/components/ExecutiveDashboard";
 import DeployFlow from "@/components/DeployFlow";
 import DifferentiationSection from "@/components/DifferentiationSection";
 import FinalCTA from "@/components/FinalCTA";
+import Footer from "@/components/Footer";
 import EmailCaptureModal from "@/components/EmailCaptureModal";
 import { EmailModalProvider } from "@/components/EmailModalContext";
 
@@ -29,6 +30,7 @@ const Index = () => {
         <DeployFlow />
         <DifferentiationSection />
         <FinalCTA />
+        <Footer />
         <EmailCaptureModal />
       </div>
     </EmailModalProvider>

@@ -14,21 +14,21 @@ const MARSSection = () => {
   const { open } = useEmailModal();
 
   return (
-    <section className="relative z-10 py-24 px-4">
+    <section className="relative z-10 py-16 md:py-24 px-4">
       <div className="max-w-4xl mx-auto">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-8 md:mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+          <h2 className="text-2xl md:text-5xl font-bold mb-4">
             <span className="text-primary text-glow">MARS</span> — Multi-Agent Recovery System
           </h2>
         </motion.div>
 
         <motion.div
-          className="glass-panel rounded-xl p-8 glow-emerald mb-8"
+          className="glass-panel rounded-xl p-5 md:p-8 glow-emerald mb-8"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -63,7 +63,7 @@ const MARSSection = () => {
           <div className="text-center">
             <motion.button
               onClick={open}
-              className="px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-lg glow-emerald-strong text-sm hover:scale-105 transition-transform duration-200"
+              className="px-6 py-3 md:px-8 md:py-4 bg-primary text-primary-foreground font-semibold rounded-lg glow-emerald-strong text-sm hover:scale-105 transition-transform duration-200"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >

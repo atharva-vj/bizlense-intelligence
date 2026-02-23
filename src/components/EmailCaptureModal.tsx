@@ -9,6 +9,11 @@ const EmailCaptureModal = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const subject = encodeURIComponent(`BizLense Inquiry from ${form.name} — ${form.company}`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\nRole: ${form.role}\n\nMessage:\n${form.message || "(none)"}`
+    );
+    window.location.href = `mailto:atharva@zenwealth.club?subject=${subject}&body=${body}`;
     setSubmitted(true);
   };
 

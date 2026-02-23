@@ -5,7 +5,7 @@ const FinalCTA = () => {
   const { open } = useEmailModal();
 
   return (
-    <section className="relative z-10 py-32 px-4 overflow-hidden">
+    <section className="relative z-10 py-20 md:py-32 px-4 overflow-hidden">
       {/* Network mesh background */}
       <svg className="absolute inset-0 w-full h-full opacity-20">
         {Array.from({ length: 15 }).map((_, i) => {
@@ -43,7 +43,7 @@ const FinalCTA = () => {
 
       <div className="relative max-w-3xl mx-auto text-center">
         <motion.h2
-          className="text-4xl md:text-6xl font-bold mb-6"
+          className="text-3xl md:text-6xl font-bold mb-4 md:mb-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -51,7 +51,7 @@ const FinalCTA = () => {
           Deploy your <span className="text-primary text-glow">agents.</span>
         </motion.h2>
         <motion.p
-          className="text-muted-foreground mb-10 text-lg"
+          className="text-muted-foreground mb-8 md:mb-10 text-base md:text-lg"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -61,7 +61,7 @@ const FinalCTA = () => {
         </motion.p>
         <motion.button
           onClick={open}
-          className="px-10 py-5 bg-primary text-primary-foreground font-semibold rounded-lg glow-emerald-strong text-lg hover:scale-105 transition-transform duration-200"
+          className="px-7 py-3.5 md:px-10 md:py-5 bg-primary text-primary-foreground font-semibold rounded-lg glow-emerald-strong text-base md:text-lg hover:scale-105 transition-transform duration-200"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           initial={{ opacity: 0, y: 10 }}

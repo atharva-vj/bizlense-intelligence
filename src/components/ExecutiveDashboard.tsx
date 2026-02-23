@@ -44,10 +44,10 @@ const ExecutiveDashboard = () => {
   }, []);
 
   return (
-    <section className="relative z-10 py-24 px-4">
+    <section className="relative z-10 py-16 md:py-24 px-4">
       <div className="max-w-5xl mx-auto">
         <motion.h2
-          className="text-3xl md:text-5xl font-bold text-center mb-16"
+          className="text-2xl md:text-5xl font-bold text-center mb-10 md:mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -73,7 +73,7 @@ const ExecutiveDashboard = () => {
                 transition={{ delay: i * 0.1 }}
               >
                 <div className="text-[10px] text-muted-foreground font-mono uppercase tracking-wider">{kpi.label}</div>
-                <div className="text-2xl md:text-3xl font-bold text-foreground mt-1">{kpi.value}</div>
+                <div className="text-xl md:text-3xl font-bold text-foreground mt-1">{kpi.value}</div>
                 <div className="text-xs text-primary mt-1">{kpi.trend}</div>
               </motion.div>
             ))}

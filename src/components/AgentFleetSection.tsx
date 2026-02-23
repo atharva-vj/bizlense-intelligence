@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useEmailModal } from "./EmailModalContext";
 
 const agents = [
@@ -11,38 +11,98 @@ const agents = [
   { name: "ORBIT Agent", status: "primary", insight: "Super Agent synthesizing all domain signals into unified brief.", kpi: "7 agents", icon: "🧠" },
 ];
 
+function seededRandom(seed: number) {
+  let s = seed;
+  return () => {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
+
+function generateSparklinePoints(agentIndex: number): number[] {
+  const rng = seededRandom((agentIndex + 1) * 7919);
+  const points: number[] = [];
+  let val = 30 + rng() * 40;
+  for (let i = 0; i < 12; i++) {
+    val += (rng() - 0.4) * 20;
+    val = Math.max(10, Math.min(90, val));
+    points.push(val);
+  }
+  return points;
+}
+
+function buildSparklinePath(points: number[], width: number, height: number): { line: string; area: string } {
+  const stepX = width / (points.length - 1);
+  const coords = points.map((p, i) => ({ x: i * stepX, y: height - (p / 100) * height }));
+
+  let line = `M ${coords[0].x},${coords[0].y}`;
+  for (let i = 1; i < coords.length; i++) {
+    const cpx1 = coords[i - 1].x + stepX * 0.4;
+    const cpy1 = coords[i - 1].y;
+    const cpx2 = coords[i].x - stepX * 0.4;
+    const cpy2 = coords[i].y;
+    line += ` C ${cpx1},${cpy1} ${cpx2},${cpy2} ${coords[i].x},${coords[i].y}`;
+  }
+
+  const area = `${line} L ${width},${height} L 0,${height} Z`;
+  return { line, area };
+}
+
+const Sparkline = ({ agentIndex }: { agentIndex: number }) => {
+  const W = 200;
+  const H = 40;
+  const { line, area } = useMemo(() => {
+    const pts = generateSparklinePoints(agentIndex);
+    return buildSparklinePath(pts, W, H);
+  }, [agentIndex]);
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-8 mb-3 relative z-10" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id={`grad-${agentIndex}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="hsl(155, 100%, 50%)" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="hsl(155, 100%, 50%)" stopOpacity="0.02" />
+        </linearGradient>
+      </defs>
+      <path d={area} fill={`url(#grad-${agentIndex})`} />
+      <motion.path
+        d={line}
+        fill="none"
+        stroke="hsl(155, 100%, 50%)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        initial={{ pathLength: 0, opacity: 0 }}
+        whileInView={{ pathLength: 1, opacity: 0.7 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.5, delay: agentIndex * 0.1 }}
+      />
+    </svg>
+  );
+};
+
 const AgentFleetSection = () => {
   const { open } = useEmailModal();
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   return (
-    <section className="relative z-10 py-24 px-4">
+    <section className="relative z-10 py-16 md:py-24 px-4">
       <div className="max-w-6xl mx-auto">
         <motion.h2
-          className="text-3xl md:text-5xl font-bold text-center mb-4"
+          className="text-2xl md:text-5xl font-bold text-center mb-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           Our <span className="text-primary text-glow">Systems</span>
         </motion.h2>
-        <p className="text-center text-muted-foreground mb-16 text-sm">Two agentic systems. One coordinated architecture.</p>
+        <p className="text-center text-muted-foreground mb-10 md:mb-16 text-sm">Two agentic systems. One coordinated architecture.</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
-          {/* SVG connection lines */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none hidden lg:block" style={{ zIndex: 0 }}>
-            <motion.line x1="33%" y1="30%" x2="66%" y2="30%" stroke="hsl(155, 100%, 50%)" strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="4 4"
-              animate={{ strokeDashoffset: [8, 0] }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }} />
-            <motion.line x1="33%" y1="70%" x2="66%" y2="70%" stroke="hsl(155, 100%, 50%)" strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="4 4"
-              animate={{ strokeDashoffset: [8, 0] }} transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }} />
-            <motion.line x1="50%" y1="20%" x2="50%" y2="80%" stroke="hsl(155, 100%, 50%)" strokeWidth="0.5" strokeOpacity="0.1" strokeDasharray="4 4"
-              animate={{ strokeDashoffset: [8, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }} />
-          </svg>
 
           {agents.map((agent, i) => (
             <motion.div
               key={agent.name}
-              className={`relative z-10 glass-panel rounded-xl p-6 cursor-pointer transition-all duration-300 ${
+              className={`relative z-10 glass-panel rounded-xl p-5 md:p-6 cursor-pointer transition-all duration-300 ${
                 agent.status === "primary" ? "glow-emerald-strong glow-border border-primary/30" : "hover:glow-emerald"
               }`}
               initial={{ opacity: 0, y: 30 }}
@@ -81,18 +141,7 @@ const AgentFleetSection = () => {
 
               <div className="text-xs text-muted-foreground font-mono mb-3 relative z-10">{agent.kpi}</div>
 
-              {/* Mini chart bar */}
-              <div className="flex gap-0.5 h-8 items-end mb-3 relative z-10">
-                {Array.from({ length: 12 }).map((_, j) => (
-                  <motion.div
-                    key={j}
-                    className="flex-1 bg-primary/20 rounded-sm"
-                    style={{ height: `${20 + Math.random() * 80}%` }}
-                    animate={{ height: [`${20 + Math.random() * 60}%`, `${30 + Math.random() * 70}%`] }}
-                    transition={{ duration: 2 + Math.random() * 2, repeat: Infinity, repeatType: "reverse" }}
-                  />
-                ))}
-              </div>
+              <Sparkline agentIndex={i} />
 
               {/* Hover insight */}
               <motion.div

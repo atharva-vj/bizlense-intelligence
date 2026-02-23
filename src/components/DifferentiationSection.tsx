@@ -30,17 +30,17 @@ const DifferentiationSection = () => {
   }, []);
 
   return (
-    <section className="relative z-10 py-24 px-4">
+    <section className="relative z-10 py-16 md:py-24 px-4">
       <div className="max-w-6xl mx-auto">
         <motion.h2
-          className="text-3xl md:text-5xl font-bold text-center mb-4"
+          className="text-2xl md:text-5xl font-bold text-center mb-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           Not dashboards. <span className="text-primary text-glow">Intelligence agents.</span>
         </motion.h2>
-        <p className="text-center text-muted-foreground text-sm mb-16">See the difference between looking at data and understanding it.</p>
+        <p className="text-center text-muted-foreground text-sm mb-10 md:mb-16">See the difference between looking at data and understanding it.</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left — Dead Dashboard */}

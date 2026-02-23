@@ -64,17 +64,17 @@ const HeroSection = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6">
+        <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-4 md:mb-6">
           Agentic systems for{" "}
           <span className="text-primary text-glow">high-friction domains.</span>
         </h1>
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+        <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 md:mb-8">
           BizLense builds autonomous, multi-agent intelligence systems that operate inside real-world business constraints. We standardize execution, reduce risk, and eliminate operational drift across complex environments.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
           <motion.button
             onClick={open}
-            className="px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-lg glow-emerald-strong hover:scale-105 transition-transform duration-200 text-lg"
+            className="px-6 py-3 md:px-8 md:py-4 bg-primary text-primary-foreground font-semibold rounded-lg glow-emerald-strong hover:scale-105 transition-transform duration-200 text-base md:text-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -82,7 +82,7 @@ const HeroSection = () => {
           </motion.button>
           <motion.button
             onClick={open}
-            className="px-8 py-4 rounded-lg border border-primary/30 text-primary font-semibold hover:bg-primary/10 transition-colors text-lg"
+            className="px-6 py-3 md:px-8 md:py-4 rounded-lg border border-primary/30 text-primary font-semibold hover:bg-primary/10 transition-colors text-base md:text-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -94,7 +94,7 @@ const HeroSection = () => {
 
       {/* Live AI System Panel */}
       <motion.div
-        className="relative z-10 w-full max-w-5xl mx-auto glass-panel rounded-xl p-6 glow-emerald"
+        className="relative z-10 w-full max-w-5xl mx-auto glass-panel rounded-xl p-4 md:p-6 glow-emerald"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.8 }}

@@ -6,7 +6,7 @@ const Header = () => {
 
   return (
     <motion.header
-      className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4"
+      className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4 bg-background/80 backdrop-blur-md border-b border-border/30"
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
