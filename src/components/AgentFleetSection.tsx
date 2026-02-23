@@ -113,18 +113,6 @@ const AgentFleetSection = () => {
               onMouseLeave={() => setHoveredIdx(null)}
               whileHover={{ scale: 1.03, y: -4 }}
             >
-              {/* Scanning line effect */}
-              <motion.div
-                className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none"
-                style={{ zIndex: 1 }}
-              >
-                <motion.div
-                  className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent"
-                  animate={{ top: ["0%", "100%"] }}
-                  transition={{ duration: 4 + i * 0.5, repeat: Infinity, ease: "linear" }}
-                />
-              </motion.div>
-
               <div className="flex items-center gap-3 mb-3 relative z-10">
                 <motion.div
                   className={`w-2.5 h-2.5 rounded-full ${agent.status === "primary" ? "bg-primary" : "bg-primary/70"}`}
