@@ -56,7 +56,7 @@ const NetworkArchitecture = () => {
 
         {/* Horizontal pipeline */}
         <div className="overflow-x-auto pb-4">
-          <div className="flex items-stretch gap-0 min-w-[800px]">
+          <div className="flex items-stretch gap-0 min-w-[800px] mx-auto w-fit">
             {stages.map((stage, i) => (
               <div key={stage.label} className="flex items-center">
                 <motion.div

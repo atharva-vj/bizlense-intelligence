@@ -37,7 +37,7 @@ const EmailCaptureModal = () => {
             onClick={handleClose}
           />
           <motion.div
-            className="fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 glass-panel rounded-xl p-6 glow-emerald border border-primary/20"
+            className="fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 glass-panel rounded-xl p-6 glow-emerald border border-primary/20"
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}

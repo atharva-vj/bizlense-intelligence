@@ -45,7 +45,7 @@ const DifferentiationSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left — Dead Dashboard */}
           <motion.div
-            className="rounded-xl border border-border/30 bg-muted/10 relative overflow-hidden"
+            className="rounded-xl border border-border/50 bg-muted/10 relative overflow-hidden"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -54,15 +54,15 @@ const DifferentiationSection = () => {
             <div className="px-5 py-3 border-b border-border/30 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-muted-foreground/30" />
-                <span className="text-[10px] font-mono text-muted-foreground/50 uppercase tracking-widest">Traditional Dashboard</span>
+                <span className="text-[10px] font-mono text-muted-foreground/60 uppercase tracking-widest">Traditional Dashboard</span>
               </div>
-              <span className="text-[10px] font-mono text-destructive/60">⚠ STALE</span>
+              <span className="text-[10px] font-mono text-destructive/80">⚠ STALE</span>
             </div>
 
             <div className="p-5 space-y-4">
               {/* Stale KPIs */}
               {staleMetrics.map((m, i) => (
-                <div key={i} className="flex items-center justify-between opacity-70">
+                <div key={i} className="flex items-center justify-between opacity-80">
                   <div>
                     <div className="text-xs text-muted-foreground font-mono">{m.label}</div>
                     <div className="text-lg font-bold text-foreground/70">{m.value}</div>
@@ -73,7 +73,7 @@ const DifferentiationSection = () => {
 
               {/* Fake static chart */}
               <div className="mt-4">
-                <div className="flex gap-1 h-16 items-end opacity-40">
+                <div className="flex gap-1 h-16 items-end opacity-50">
                 {[40, 55, 35, 60, 45, 50, 30, 55, 40, 45, 50, 35].map((h, i) => (
                     <div key={i} className="flex-1 bg-muted-foreground/50 rounded-sm" style={{ height: `${h}%` }} />
                   ))}
@@ -82,14 +82,14 @@ const DifferentiationSection = () => {
 
               {/* No insights */}
               <div className="text-center py-4 border-t border-border/20">
-                <div className="text-xs text-muted-foreground/50 font-mono">No automated insights available</div>
-                <div className="text-[10px] text-muted-foreground/40 font-mono mt-1">Manual analysis required</div>
+                <div className="text-xs text-muted-foreground/60 font-mono">No automated insights available</div>
+                <div className="text-[10px] text-muted-foreground/50 font-mono mt-1">Manual analysis required</div>
               </div>
             </div>
 
             {/* "Dead" overlay stripe */}
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-              <div className="rotate-[-12deg] text-muted-foreground/[0.08] text-5xl font-black tracking-widest select-none">
+              <div className="rotate-[-12deg] text-muted-foreground/[0.15] text-5xl font-black tracking-widest select-none">
                 OUTDATED
               </div>
             </div>
